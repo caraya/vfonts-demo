@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Variable Fonts Demo</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/prism.css">
+  <link rel="stylesheet" href="styles/robotovf.css">
+</head>
+<body>
+<h1>Variable Fonts Demo</h1>
+<section class="container">
+<p>
+  The idea behind
+  <a href="http://publishing-project.rivendellweb.net/variable-fonts-for-the-win/">Variable Fonts</a> is to reduced the number and weights of the fonts in a page by consolidating the number and size of
+  the fonts you download. From a technical standpoint, Variable fonts (a part of a new vesion of the Open Type standard)
+  introduces 5 predefined axes:</p>
+
+<ul>
+  <li>
+    <strong>wght</strong>: "Weight"
+  </li>
+  <li>
+    <strong>wdth</strong>: "Width"
+  </li>
+  <li>
+    <strong>opsz</strong>: "Optical size"
+  </li>
+  <li>
+    <strong>ital</strong>: "Italic"
+  </li>
+  <li>
+    <strong>slnt</strong>: "Slant"
+  </li>
+</ul>
+
+<aside class="message warning">
+  <p>Not all variable fonts support all predefined axes and some support custom axes that are exclusive to that font.</p>
+</aside>
+
+<p>We can use these axes using new extensions to CSS and a new attribute.</p>
+
+
+
+<p>So, instead of downloading 4 font faces like I normally do:</p>
+
+<pre class="language-css"><code class="language-css">
+/* Monospaced font for code samples */
+@font-face {
+  font-family: "notomono-regular";
+  src:  url("../fonts/notomono-regular.woff2") format("woff2"),
+        url("../fonts/notomono-regular.woff") format("woff"),
+        url("../fonts/notomono-regular.ttf") format("truetype"),
+          font-weight: normal;
+          font-style: normal;
+}
+
+/* Regular font */
+@font-face {
+  font-family: "notosans-regular";
+  src:  url("../fonts/notosans-regular.woff2") format("woff2"),
+        url("../fonts/notosans-regular.woff") format("woff"),
+        url("../fonts/notosans-regular.ttf") format("truetype"),
+          font-weight: normal;
+          font-style: normal;
+}
+
+/* Bold font */
+@font-face {
+  font-family: "notosans-regular";
+  src:  url("../fonts/notosans-bold.woff2") format("woff2"),
+        url("../fonts/notosans-bold.woff") format("woff"),
+        url("../fonts/notosans-bold.ttf") format("truetype"),
+          font-weight: 700;
+          font-style: normal;
+}
+
+/* Italic Font */
+@font-face {
+  font-family: "notosans-regular";
+  src:  url("../fonts/notosans-italic.woff2") format("woff2"),
+        url("../fonts/notosans-italic.woff") format("woff"),
+        url("../fonts/notosans-italic.ttf") format("truetype"),
+          font-weight: normal;
+          font-style: italic;
+}
+
+/* bold-italic font */
+@font-face {
+  font-family: "notosans-regular";
+  src:  url("../fonts/notosans-bolditalic.woff2") format("woff2"),
+        url("../fonts/notosans-bolditalic.woff") format("woff"),
+        url("../fonts/notosans-bolditalic.ttf") format("truetype"),
+          font-weight: 700;
+          font-style: italic;
+}
+</code></pre>
+
+<p>I can download one or two fonts that will take care of all the site's typographical needs. Theoretically we could consolidate
+  both fonts into one and have to deal with one file, one HTTP request and one item to load using
+  <a href="https://fontfaceobserver.com/">Font Face Observer</a>
+</p>
+
+<pre><code class="language-css">
+ @font-face {
+   font-family: "roboto-vf";
+   src: url("type/RobotoUpright-VF.ttf") format("truetype-variations");
+    font-weight: normal;
+    font-style: normal;
+    font-display: fallback;
+}
+
+@font-face {
+  font-family: "roboto-vf";
+  src: url("type/RobotoItalic-VF.ttf") format("truetype-variations");
+    font-weight: normal;
+    font-style: italic;
+    font-display: fallback;
+}
+</code>
+</pre>
+
+</section>
+<!-- Scripts -->
+<!-- PRISM-->
+<script src="scripts/vendor/clipboard.min.js"></script>
+<script src="scripts/vendor/prism.js"></script>
+<!-- LAZY LOAD IMAGES -->
+<script src="scripts/lazy-load-plain.js"></script>
+<!-- LAZY LOAD VIDEO -->
+<script src="scripts/lazy-load-video.js"></script>
+<!-- FONT FACE OBSERVER -->
+<script src="scripts/vendor/fontfaceobserver.js"></script>
+<!-- FONT LOADER -->
+<!-- We do this here because it'll change from file to file -->
+<script>
+  'use strict';
+  // Load the font(s)
+  var roboto = new FontFaceObserver('roboto-vf');
+  // var robotoi = new FontFaceObserver('roboto-vf-italics');
+
+  // Capture a variable for the document element
+  var html = document.documentElement;
+
+  // Add 'fonts-loading' class
+  html.classList.add('fonts-loading');
+
+  //load fonts
+  Promise.all([
+    roboto.load(),
+    // robotoi.load(),
+  ])
+    .then(function () {
+      // If they load switch class to fonts-loaded and
+      // log success to console
+      html.classList.remove('fonts-loading');
+      html.classList.add('fonts-loaded');
+      console.log('All fonts have loaded.');
+    }).catch(function () {
+      // If they fail to load switch class to fonts-failed
+      // and log failure to console
+      html.classList.remove('fonts-loading');
+      html.classList.add('fonts-failed');
+      console.log('One or more fonts failed to load');
+    });
+</script>
+
+</body>
+</html>
