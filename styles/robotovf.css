@@ -1,3 +1,5 @@
+/**/
+
 @font-face {
     font-family: "roboto-vf";
     src: url("type/RobotoUpright-VF.ttf") format("truetype");
@@ -55,6 +57,11 @@ strong em,
 em strong {
     font-variation-settings: "wght" 700;
     font-style: italic;
+}
+
+.byline {
+    color: #8BB1DD;
+    font-variation-settings: "wdth" 75%, "wght" 700;
 }
 
 h1 {
