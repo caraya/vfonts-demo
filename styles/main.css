@@ -5,7 +5,8 @@
     border-radius: 10px;
     display: block;
     padding: .5em;
-    margin: 1em 0;
+    width: 75%;
+    margin: 1em auto;
 }
 
 .message.info {
