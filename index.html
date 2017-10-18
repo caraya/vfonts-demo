@@ -20,16 +20,6 @@
   <p> The idea behind <a href="http://publishing-project.rivendellweb.net/variable-fonts-for-the-win/">Variable Fonts</a> is to reduced the number and weights of the fonts in a page by consolidating the number and size of the fonts you download. Instead of downloading 4 font faces like I normally do:</p>
 
 <pre class="language-css"><code class="language-css">
-/* Monospaced font for code samples */
-@font-face {
-  font-family: "notomono-regular";
-  src:  url("../fonts/notomono-regular.woff2") format("woff2"),
-        url("../fonts/notomono-regular.woff") format("woff"),
-        url("../fonts/notomono-regular.ttf") format("truetype"),
-          font-weight: normal;
-          font-style: normal;
-}
-
 /* Regular font */
 @font-face {
   font-family: "notosans-regular";
@@ -50,25 +40,7 @@
           font-style: normal;
 }
 
-/* Italic Font */
-@font-face {
-  font-family: "notosans-regular";
-  src:  url("../fonts/notosans-italic.woff2") format("woff2"),
-        url("../fonts/notosans-italic.woff") format("woff"),
-        url("../fonts/notosans-italic.ttf") format("truetype"),
-          font-weight: normal;
-          font-style: italic;
-}
-
-/* bold-italic font */
-@font-face {
-  font-family: "notosans-regular";
-  src:  url("../fonts/notosans-bolditalic.woff2") format("woff2"),
-        url("../fonts/notosans-bolditalic.woff") format("woff"),
-        url("../fonts/notosans-bolditalic.ttf") format("truetype"),
-          font-weight: 700;
-          font-style: italic;
-}
+/* Italic and BoldItalic Fonts ommited for clarity */
 </code></pre>
 
 <p>I can download one or two fonts that will take care of all the site's typographical needs. Theoretically we could consolidate
@@ -99,8 +71,7 @@
 </code>
 </pre>
 
-
-
+<h2>Technical Explanation</h2>
 
 <p>From a technical standpoint, Variable fonts (a part of a new vesion of the Open Type standard) introduces 5 predefined axes:</p>
 
@@ -136,9 +107,20 @@
 our fonts look in the page. </p>
 
 <p>There is a lower-level to control Variable Font features directly:
-  <code>font-variation-settings</code>. Using this attribute, we can call the axes, both custom and predefined, directly. Assuming that the Roboto VF font was loaded successfully we can use the
+<code>font-variation-settings</code>. Using this attribute, we can call the axes, both custom and predefined, directly. Assuming
+that the Roboto VF font was loaded successfully we can use
+<code>font-variation-settings</code> like this:
 </p>
 
+<pre><code class="language-css">.fonts-loaded body {
+  font-family: "roboto-vf", Arial, Helvetica, sans-serif;
+  font-size: 16px; line-height: 1.4;
+  font-weight: 100;
+  font-variation-settings: "wdth" 100, "wght" 100;
+}
+</code></pre>
+
+<p>Where <code>wdth</code> corresponds to the width axis and <code>wght</code> corresponds to the weight.</p>
 
 </article>
 <!-- Scripts -->
@@ -157,7 +139,7 @@ our fonts look in the page. </p>
   'use strict';
   // Load the font(s)
   var roboto = new FontFaceObserver('roboto-vf');
-  // var robotoi = new FontFaceObserver('roboto-vf-italics');
+  var robotoItalic = new FontFaceObserver('roboto-vf-italic')
 
   // Capture a variable for the document element
   var html = document.documentElement;
@@ -168,7 +150,7 @@ our fonts look in the page. </p>
   //load fonts
   Promise.all([
     roboto.load(),
-    // robotoi.load(),
+    robotoItalic.load(),
   ])
     .then(function () {
       // If they load switch class to fonts-loaded and
