@@ -25,6 +25,7 @@
     margin: 0 auto;
 }
 
+
 /* Flexbox related classes */
 
 figure {
@@ -61,19 +62,11 @@ table tbody tr:nth-child(even) {
 
 table th {
     border: 1px solid black;
-    font-family: notosans_bold, verdana, sans-serif;
     text-align: center;
 }
 
 table td {
     border: 1px solid black;
-}
-
-blockquote {
-    font-size: 1.25em;
-    line-height: 1.458333;
-    border-left: 0.5em solid #607d8b;
-    padding-left: 1.5em;
 }
 
 @media screen and (min-width: 20em) and (max-width: 37.5em) and (-webkit-min-device-pixel-ratio: 1) {
@@ -85,6 +78,13 @@ blockquote {
 
 p:not:first-of-type {
     text-indent: 2em;
+}
+
+blockquote {
+    font-size: 1.25em;
+    line-height: 1.458333;
+    border-left: 0.5em solid #607d8b;
+    padding-left: 1.5em;
 }
 
 blockquote .larger {

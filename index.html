@@ -10,41 +10,14 @@
   <link rel="stylesheet" href="styles/robotovf.css">
 </head>
 <body>
-<h1>Variable Fonts Demo</h1>
-<section class="container">
-<p>
-  The idea behind
-  <a href="http://publishing-project.rivendellweb.net/variable-fonts-for-the-win/">Variable Fonts</a> is to reduced the number and weights of the fonts in a page by consolidating the number and size of
-  the fonts you download. From a technical standpoint, Variable fonts (a part of a new vesion of the Open Type standard)
-  introduces 5 predefined axes:</p>
 
-<ul>
-  <li>
-    <strong>wght</strong>: "Weight"
-  </li>
-  <li>
-    <strong>wdth</strong>: "Width"
-  </li>
-  <li>
-    <strong>opsz</strong>: "Optical size"
-  </li>
-  <li>
-    <strong>ital</strong>: "Italic"
-  </li>
-  <li>
-    <strong>slnt</strong>: "Slant"
-  </li>
-</ul>
+<article class="container">
+  <header>
+    <h2>Variable Fonts Demo and Explainer</h2>
+    <p>Posted on October 17, 2017 by Carlos Araya</p>
+  </header>
 
-<aside class="message warning">
-  <p>Not all variable fonts support all predefined axes and some support custom axes that are exclusive to that font.</p>
-</aside>
-
-<p>We can use these axes using new extensions to CSS and a new attribute.</p>
-
-
-
-<p>So, instead of downloading 4 font faces like I normally do:</p>
+  <p> The idea behind <a href="http://publishing-project.rivendellweb.net/variable-fonts-for-the-win/">Variable Fonts</a> is to reduced the number and weights of the fonts in a page by consolidating the number and size of the fonts you download. Instead of downloading 4 font faces like I normally do:</p>
 
 <pre class="language-css"><code class="language-css">
 /* Monospaced font for code samples */
@@ -103,6 +76,10 @@
   <a href="https://fontfaceobserver.com/">Font Face Observer</a>
 </p>
 
+<aside class="message info">
+  <p>The more information we pack in a Variable font the smaller the payload we have to load as compare to downloading and using individual font files for each style and font that we want to use.</p>
+</aside>
+
 <pre><code class="language-css">
  @font-face {
    font-family: "roboto-vf";
@@ -122,7 +99,48 @@
 </code>
 </pre>
 
-</section>
+
+
+
+<p>From a technical standpoint, Variable fonts (a part of a new vesion of the Open Type standard) introduces 5 predefined axes:</p>
+
+<ul>
+  <li>
+    <strong>wght</strong>: "Weight"
+  </li>
+  <li>
+    <strong>wdth</strong>: "Width"
+  </li>
+  <li>
+    <strong>opsz</strong>: "Optical size"
+  </li>
+  <li>
+    <strong>ital</strong>: "Italic"
+  </li>
+  <li>
+    <strong>slnt</strong>: "Slant"
+  </li>
+</ul>
+
+<aside class="message warning">
+  <p>Not all variable fonts support all predefined axes and some support custom axes that are exclusive to that font.</p>
+</aside>
+
+<p>We can use these axes using new extensions to CSS and a new attribute. When all browsers fully support Variable Fonts we'll
+ be able to use new values for
+<code>font-weight</code>,
+<code>font-style</code>,
+<code>font-width</code>,
+<code>font-stretch</code> and the new
+<code>font-optical-sizing</code> rules to achieve much tighter control over the way
+our fonts look in the page. </p>
+
+<p>There is a lower-level to control Variable Font features directly:
+  <code>font-variation-settings</code>. Using this attribute, we can call the axes, both custom and predefined, directly. Assuming that the Roboto VF font was loaded successfully we can use the
+</p>
+
+
+</article>
 <!-- Scripts -->
 <!-- PRISM-->
 <script src="scripts/vendor/clipboard.min.js"></script>
