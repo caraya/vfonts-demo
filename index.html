@@ -7,6 +7,7 @@
   <title>Variable Fonts Demo</title>
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/prism.css">
+  <link rel="stylesheet" href="styles/video-load.css">
   <link rel="stylesheet" href="styles/robotovf.css">
 </head>
 <body>
@@ -44,7 +45,7 @@
 </code></pre>
 
 <p>I can download one or two fonts that will take care of all the site's typographical needs. Theoretically we could consolidate
-  both fonts into one and have to deal with one file, one HTTP request and one item to load using
+  both fonts into one and have to deal with fewer files, fewer HTTP requests and fewer items to load using
   <a href="https://fontfaceobserver.com/">Font Face Observer</a>
 </p>
 
@@ -53,9 +54,10 @@
 </aside>
 
 <pre><code class="language-css">
- @font-face {
-   font-family: "roboto-vf";
-   src: url("type/RobotoUpright-VF.ttf") format("truetype-variations");
+@font-face {
+  font-family: "roboto-vf";
+  src: url("type/RobotoUpright-VF.ttf") format("truetype");
+    /* format should be truetype-variations but it doesn't seem to be supported */
     font-weight: normal;
     font-style: normal;
     font-display: fallback;
@@ -63,7 +65,8 @@
 
 @font-face {
   font-family: "roboto-vf";
-  src: url("type/RobotoItalic-VF.ttf") format("truetype-variations");
+  src: url("type/RobotoItalic-VF.ttf") format("truetype");
+    /* format should be truetype-variations but it doesn't seem to be supported */
     font-weight: normal;
     font-style: italic;
     font-display: fallback;
@@ -115,7 +118,8 @@ that the Roboto VF font was loaded successfully we can use
 
 <pre><code class="language-css">.fonts-loaded body {
   font-family: "roboto-vf", Arial, Helvetica, sans-serif;
-  font-size: 16px; line-height: 1.4;
+  font-size: 16px;
+  line-height: 1.4;
   font-weight: 100;
   font-variation-settings: "wdth" 100, "wght" 100;
 }
@@ -124,6 +128,154 @@ that the Roboto VF font was loaded successfully we can use
 <p>Where <code>wdth</code> corresponds to the width axis and <code>wght</code> corresponds to the weight.</p>
 
 <h2>Getting our hands dirty</h2>
+
+<aside class="message warning">
+
+  <p>Because Variable Fonts are just coming out in browsers support is spotty. As far as  I know, the following browsers support Open Type font variations and the corresponding CSS:</p>
+
+  <ul>
+    <li>Safari 11 running on macOS 10.13 (High Sierra)</li>
+    <li>WebKit Nightly running on macOS 10.13 (High Sierra)</li>
+    <li>Safari Technology Preview 41 and later (running on macOS 10.13 (High Sierra))</li>
+    <li>Chrome 62 and later out of the box (Desktop, Android and Webview)</li>
+    <li>Firefox <a href="https://www.mozilla.org/en-US/firefox/developer/">Developer edition</a>. To configure Variable Fonts support, do the following:</li>
+      <ul>
+        <li>Go to the URL <code>about:config</code></li>
+        <li>Set <code>layout.css.font-variations.enabled</code> to true</li>
+        <li>Set <code>gfx.downloadable_fonts.keep_variation_tables</code> to true</li>
+        <li>Set <code>gfx.downloadable_fonts.otl_validation</code> to false.</li>
+      </ul>
+    <li>Opera 49 (Desktop and Android)</li>
+    <li>Microsoft Edge: Fall Developer's Update</li>
+    <li>Internet Explorer: <strong>not supported</strong></li>
+  </ul>
+
+</aside>
+
+<aside class="message warning">
+  <p>This section is a work in progress. In particular, I'm still researching the scale for the axes values; does it go from 0 to 100% and -50% to 200% or, as I read in the spec, from 1 to 999 and from -50% to 200% or something else? Is dependent on the font?</p>
+</aside>
+
+<aside class="message danger">
+  <p>This section relies on the <a href="https://www.w3.org/TR/css-fonts-4/">CSS Fonts Module Level 4</a> specification, currently an editor's draft aat the W3C. As with any specification that hasn't reached, at least, candidate recommendation status at W3C or been integrted into a WHATWG living standard, you're cautioned not to put this code in a production or to have fallbacks that will work if Variable Fonts are not supported.</p>
+  <p>Also be aware that the syntax discussed here <strong>can</strong> (and likely will) change before the specificatioon is finalized.</p>
+</aside>
+
+<h3>Downloading and preparing the fonts</h3>
+
+<p>The first thing we need to do is to load the font that we want to work with. This process is no different than loading regular fonts. The following example shows how to load two instancess of Roboto Variable Font. One for regular text and one for italics. </p>
+
+
+<pre class="language-css"><code class="language-css">
+@font-face {
+  font-family: "roboto-vf";
+  src: url("type/RobotoUpright-VF.ttf") format("truetype");
+    /* format should be truetype-variations but it doesn't seem to be supported */
+    font-weight: normal;
+    font-style: normal;
+    font-display: fallback;
+}
+
+@font-face {
+  font-family: "roboto-vf";
+  src: url("type/RobotoItalic-VF.ttf") format("truetype");
+    /* format should be truetype-variations but it doesn't seem to be supported */
+    font-weight: normal;
+    font-style: italic;
+    font-display: fallback;
+}
+</code>
+</pre>
+
+
+<p>I normally use <a href="https://fontfaceobserver.com">Font Face Observer</a> to make sure that my fonts loaded before I use them and provide a good experience without the jarring and potential disorientation fromm text flashes and, potentially, repositioning of the text when the final font loads.</p>
+
+<p>The Javascript code to load both Roboto Variable Fonts is shown below. Using this script, it assumes that <code>fontfaceobserver.js</code> has already been loadded in your page. </p>
+
+<pre class="language-javascript"><code class="language-javascript">'use strict';
+  // Load the font(s)
+  var roboto = new FontFaceObserver('roboto-vf');
+  var robotoItalic = new FontFaceObserver('roboto-vf-italic')
+
+  // Capture a variable for the document element
+  var html = document.documentElement;
+
+  // Add 'fonts-loading' class
+  html.classList.add('fonts-loading');
+
+  //load fonts
+  Promise.all([
+    roboto.load(),
+    robotoItalic.load(),
+  ])
+    .then(function () {
+      // If they load switch class to fonts-loaded and
+      // log success to console
+      html.classList.remove('fonts-loading');
+      html.classList.add('fonts-loaded');
+      console.log('All fonts have loaded.');
+    }).catch(function () {
+      // If they fail to load switch class to fonts-failed
+      // and log failure to console
+      html.classList.remove('fonts-loading');
+      html.classList.add('fonts-failed');
+      console.log('One or more fonts failed to load');
+    });
+</code></pre>
+
+<p>Now that we've downloaded the font and prepared it for use, we can explore how to use the new featurres.</p>
+
+<h3>Using the fonts</h3>
+
+<p>To acommodate the new features in Open Type, the CSS working group has added new values to existing features to match the predefined Axes on these fonts and their values. The table below shows the Open Type 1.8 predefined axes </p>
+
+<table>
+  <caption>
+    Equivalency Between Open Type Axis and CSS Properties
+  </caption>
+  <tbody>
+    <tr>
+      <th scope="col">Open Type Predefined Axis</th>
+      <th scope="col">CSS Equivalent Feature and notes</th>
+      <th scope="col">Values</th>
+    </tr>
+    <tr>
+      <td><p><strong>wght</strong>: "Weight"</p></td>
+      <td><p><strong>font-weight</strong></p></td>
+      <td><p>Values from 1 to 999</p></td>
+    </tr>
+    <tr>
+      <td><p><strong>wdth</strong>: "Width"</p></td>
+      <td><p><strong>font-stretch</strong></p></td>
+      <td><p>Values from -50% to 200%</p></td>
+    </tr>
+    <tr>
+      <td><p><strong>opsz</strong>: "Optical size"</p></td>
+      <td><p><strong>font-optical-sizing</strong></p></td>
+      <td><p>One of auto or none</p></td>
+    </tr>
+    <tr>
+      <td><p><strong>ital</strong>: "Italic"</p></td>
+      <td><p><strong>font-style</strong></p></td>
+      <td><p>normal, italic or oblique &lt;angle&gt; </p></td>
+    </tr>
+    <tr>
+      <td><p><strong>slnt</strong>: "Slant"</p></td>
+      <td><p><strong>&nbsp;</strong></p></td>
+      <td><p>&nbsp;</p></td>
+    </tr>
+  </tbody>
+</table>
+
+<p></p>
+
+
+<p>Another alternative, useful when the font has a custom axis that is not covered by the predefined axes in the table above is <code>font-variation-settings</code>. This will gives us access to both the predefined axes and to any custom axis the font provides. </p>
+
+<blockquote>
+  <p>When possible, authors should generally use the other properties related to font variations (such as font-optical-sizing) whenever possible and only use this property for special cases where its use is the only way of accessing a particular infrequently used font variation.</p>
+  <cite><a href="https://drafts.csswg.org/css-fonts-4/#font-variation-settings-def">Low-level font variation settings control: the font-variation-settings property</a></cite>
+</blockquote>
 
 </article>
 <!-- Scripts -->
@@ -138,7 +290,7 @@ that the Roboto VF font was loaded successfully we can use
 <script src="scripts/vendor/fontfaceobserver.js"></script>
 <!-- FONT LOADER -->
 <!-- We do this here because it'll change from file to file -->
-<script>
+<script>  
   'use strict';
   // Load the font(s)
   var roboto = new FontFaceObserver('roboto-vf');

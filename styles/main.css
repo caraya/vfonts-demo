@@ -1,151 +1,147 @@
+article {
+  counter-reset: figure-count;
+  counter-reset: video-count;
+}
+
+
 /* Informational messages */
 
 .message {
-    border: 1px solid black;
-    border-radius: 10px;
-    display: block;
-    padding: .5em;
-    width: 75%;
-    margin: 1em auto;
+  border: 1px solid black;
+  border-radius: 10px;
+  display: block;
+  padding: .5em;
+  width: 75%;
+  margin: 1em auto;
 }
 
 .message.info {
-    background-color: lightblue;
+  background-color: lightblue;
 }
 
 .message.warning {
-    background-color: lightyellow;
+  background-color: lightyellow;
 }
 
 .message.danger {
-    background-color: indianred;
+  background-color: indianred;
 }
 
 .container {
-    width: 80%;
-    margin: 0 auto;
+  width: 80%;
+  margin: 0 auto;
 }
 
 
 /* Flexbox related classes */
 
 figure {
-    counter-increment: figure-count;
-    max-width: 100%;
+  counter-increment: figure-count;
+  max-width: 100%;
 }
 
 figure img {
-    max-height: auto;
-    max-width: inherit;
+  max-height: auto;
+  max-width: inherit;
 }
 
 figure figcaption {
-    font-size: .75rem;
-    color: #333333;
+  font-size: .75rem;
+  color: #333333;
 }
 
 figure figcaption::before {
-    content: "Figure " counter(figure-count) ": ";
+  content: "Figure " counter(figure-count) ": ";
 }
 
 table {
-    border-collapse: collapse;
-    width: 100%;
+  border-collapse: collapse;
+  width: 100%;
 }
 
 table tbody {
-    border: 1px solid black;
+  border: 1px solid black;
 }
 
 table tbody tr:nth-child(even) {
-    background-color: #9e9e9e;
+  background-color: #9e9e9e;
 }
 
 table th {
-    border: 1px solid black;
-    text-align: center;
+  border: 1px solid black;
+  text-align: center;
 }
 
 table td {
-    border: 1px solid black;
+  border: 1px solid black;
 }
 
 @media screen and (min-width: 20em) and (max-width: 37.5em) and (-webkit-min-device-pixel-ratio: 1) {
-    blockquote {
-        font-size: 1.25em;
-        line-height: 1.25;
-    }
+  blockquote {
+      font-size: 1.25em;
+      line-height: 1.25;
+  }
 }
 
 p:not:first-of-type {
-    text-indent: 2em;
+  text-indent: 2em;
 }
 
 blockquote {
-    font-size: 1.25em;
-    line-height: 1.458333;
-    border-left: 0.5em solid #607d8b;
-    padding-left: 1.5em;
+  font-size: 1.25em;
+  line-height: 1.458333;
+  border-left: 0.5em solid #607d8b;
+  padding-left: 1.5em;
 }
 
 blockquote .larger {
-    border-top: 2px solid #b70000;
-    border-bottom: 2px solid #b70000;
-    margin-bottom: 1em;
-    padding: 1em 0;
-    overflow: hidden;
+  border-top: 2px solid #b70000;
+  border-bottom: 2px solid #b70000;
+  margin-bottom: 1em;
+  padding: 1em 0;
+  overflow: hidden;
 }
 
 blockquote .larger :before {
-    display: block;
-    content: "\201C";
-    font: 700 154px/1em "proxima-nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    height: 0.35em;
-    color: #b70000;
-    float: left;
-    position: relative;
-    top: -0.075em;
+  display: block;
+  content: "\201C";
+  font: 700 154px/1em "proxima-nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  height: 0.35em;
+  color: #b70000;
+  float: left;
+  position: relative;
+  top: -0.075em;
 }
 
 video,
 object {
-    clear: both;
-    display: block;
-    margin: 1em auto;
-    max-width: 100% !important;
-    height: auto !important;
+  clear: both;
+  display: block;
+  margin: 1em auto;
+  max-width: 100% !important;
+  height: auto !important;
 }
 
-.video {
-    margin: 2em 0;
+figure.video {
+  counter-increment: video-count;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.video p {
-    font-style: italic;
-    font-weight: 700;
-    margin-top: -0.125em;
+figure.video iframe {
+  clear: both;
+  max-width: inherit;
+  text-align: center
 }
 
-.video iframe {
-    clear: both;
-    display: block;
-    margin: 1em auto;
-    max-width: inherit;
-    text-align: center;
+figure.video figcaption {
+  font-style: italic;
+  font-weight: 700;
+  margin-top: -.125em;
 }
 
-.video {
-    position: relative;
-    padding-bottom: 56.25%;
-    /* 16:9 */
-    padding-top: 25px;
-    height: 0;
-}
-
-.video iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+figure.video figcaption::before {
+  content: "Video " counter(video-count) ": ";
 }
