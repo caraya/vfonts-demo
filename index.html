@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="styles/prism.css">
   <link rel="stylesheet" href="styles/video-load.css">
   <link rel="stylesheet" href="styles/robotovf.css">
+  <link rel="stylesheet" href="styles/amstelvar.css">
+  <link rel="stylesheet" href="styles/decovar.css">
 </head>
 <body>
 
@@ -50,7 +52,7 @@
 </p>
 
 <aside class="message info">
-  <p>The more information we pack in a Variable font the smaller the payload we have to download as compare to individual font files for each style and font that we want to use.</p>
+  <p>The more information we pack in a Variable font the smaller the payload we have to download compared to individual font files for each style and font that we want to use.</p>
 </aside>
 
 <pre><code class="language-css">
@@ -157,7 +159,7 @@ that the Roboto VF font was loaded successfully we can use
 </aside>
 
 <aside class="message danger">
-  <p>This section relies on the <a href="https://www.w3.org/TR/css-fonts-4/">CSS Fonts Module Level 4</a> specification, currently an editor's draft aat the W3C. As with any specification that hasn't reached, at least, candidate recommendation status at W3C or been integrted into a WHATWG living standard, you're cautioned not to put this code in a production or to have fallbacks that will work if Variable Fonts are not supported.</p>
+  <p>This section relies on the <a href="https://www.w3.org/TR/css-fonts-4/">CSS Fonts Module Level 4</a> specification, currently an editor's draft at the W3C. As with any specification that hasn't reached, at least, candidate recommendation status at W3C or been integrted into a WHATWG living standard, you're cautioned not to put this code in a production or to have fallbacks that will work if Variable Fonts are not supported.</p>
   <p>Also be aware that the syntax discussed here <strong>can</strong> (and likely will) change before the specificatioon is finalized.</p>
 </aside>
 
@@ -227,7 +229,11 @@ that the Roboto VF font was loaded successfully we can use
 
 <h3>Using the fonts</h3>
 
-<p>To acommodate the new features in Open Type, the CSS working group has added new values to existing features to match the predefined Axes on these fonts and their values. The table below shows the Open Type 1.8 predefined axes </p>
+<aside class="message warning">
+  <p>All the fonts used in the examples are under active development. They do not include all the glyphs that you need for proper Latin languages support.</p>
+</aside>
+
+<p>To acommodate the new features in Open Type, the CSS working group has added new values to existing features to match the predefined Axes on these fonts and their values. The table below shows the Open Type 1.8 predefined axes, the equivalent CSS Propperties and the values these properties can take.</p>
 
 <table>
   <caption>
@@ -236,46 +242,135 @@ that the Roboto VF font was loaded successfully we can use
   <tbody>
     <tr>
       <th scope="col">Open Type Predefined Axis</th>
-      <th scope="col">CSS Equivalent Feature and notes</th>
-      <th scope="col">Values</th>
+      <th scope="col">CSS Equivalent Properties</th>
+      <th scope="col">CSS Values</th>
     </tr>
     <tr>
       <td><p><strong>wght</strong>: "Weight"</p></td>
       <td><p><strong>font-weight</strong></p></td>
-      <td><p>Values from 1 to 999</p></td>
+      <td>
+        <ul>
+          <li>Values from 1 to 999</li>
+          <li>normal</li>
+          <li>bold</li>
+          <li>bolder</li>
+          <li>lighter</li>
+        </ul>
+      </td>
     </tr>
     <tr>
       <td><p><strong>wdth</strong>: "Width"</p></td>
       <td><p><strong>font-stretch</strong></p></td>
-      <td><p>Values from -50% to 200%</p></td>
+      <td>
+       <p>Single values from either colum on the table below</p>
+        <table>
+          <thead>
+            <tr><th>Keyword value</th><th>Numeric value</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>ultra-condensed</td><td>50%</td></tr>
+            <tr><td>extra-condensed</td><td>62.5%</td></tr>
+            <tr><td>condensed</td><td>75%</td></tr>
+            <tr><td>semi-condensed</td><td>87.5%</td></tr>
+            <tr><td>normal</td><td>100%</td></tr>
+            <tr><td>semi-expanded</td><td>112.5%</td></tr>
+            <tr><td>expanded</td><td>125%</td></tr>
+            <tr><td>extra-expanded</td><td>150%</td></tr>
+            <tr><td>ultra-expanded</td><td>200%</td></tr>
+          </tbody>
+        </table>
+        <p></p>
+      </td>
     </tr>
     <tr>
       <td><p><strong>opsz</strong>: "Optical size"</p></td>
       <td><p><strong>font-optical-sizing</strong></p></td>
-      <td><p>One of auto or none</p></td>
+      <td>
+        <p></p>
+        <ul>
+          <li>auto</li>
+          <li>none</li>
+        </ul>
+      </td>
     </tr>
     <tr>
       <td><p><strong>ital</strong>: "Italic"</p></td>
-      <td><p><strong>font-style</strong></p></td>
-      <td><p>normal, italic or oblique &lt;angle&gt; </p></td>
+      <td rowspan="2"><p><strong>font-style</strong></p></td>
+      <td rowspan="2">
+        <p></p>
+        <ul>
+          <li>normal</li>
+          <li>italic</li>
+          <li>oblique &lt;angle&gt;</li>
+        </ul>
+        <p>The values for the oblique angle range from -90 and 90.</p>
+      </td>
     </tr>
     <tr>
       <td><p><strong>slnt</strong>: "Slant"</p></td>
-      <td><p><strong>&nbsp;</strong></p></td>
-      <td><p>&nbsp;</p></td>
     </tr>
   </tbody>
 </table>
 
-<p></p>
+<p>With this information we can start playing with Variable fonts and their new capabilities.</p>
+
+<p>Using <code>RobotoUpright-VF</code> and <code>RobotoItalic-VF</code> we'll look at some things you can do with Variable Fonts.</p>
+
+<aside class="message info">
+  <p><code>RobotoUpright</code> and <code>RobotoItalic-VF</code> support 2 axes: Weight and Width.</p>
+</aside>
+
+<p>Variable fonts work like any other web font. We can leveerage existing values for CSS typography properties that match the open type predefined axes like in the example below:</p>
+
+<pre class="language-css"><code class="language-css">
+.stretched1 {
+  font-size: 3em;
+  font-stretch: 200%;
+  font-weight: 900;
+}
+</code></pre>
+
+<p>That produces the following HTML code when we wrap the word analysis in &lt;em&gt; tags</p>
+
+<p class="stretched1">Demo text for <em>analysis</em> and evaluation.</p>
+
+<p>We can also use the lower-level <code>font-variation-settings</code> attribute that, in theory, should produce the same results as the previous example.</p>
+
+<aside class="message warning">
+  <p>The example below is not respecting the second axis in font-variation-settings. Reseaching if this is a browser implementationn issue or if it's a code issue on my end.</p>
+</aside>
+
+<pre class="language-css"><code class="language-css">
+.stretched2{
+  font-size: 3em;
+  font-variation-settings: "wdth" 200%, "wght" 700;
+}
+</code></pre>
+
+<p class="stretched2">Demo text for <em>analysis</em> and evaluation.</p>
 
 
-<p>Another alternative, useful when the font has a custom axis that is not covered by the predefined axes in the table above is <code>font-variation-settings</code>. This will gives us access to both the predefined axes and to any custom axis the font provides. </p>
+<p>For basic functionality this is overkill, but we'll find uses for it later when we look at fonts with custom axes. Having two axes to play and experiment with is not as challenging and interesting, the next font provides a little more grounds for experimentation.</p>
+
+<h3>Lower Level Plumbing: font-variation-settings</h3>
+
+<p>Another alternative, useful when the font has a custom axis that is not covered by the predefined axes in the table above is <code>font-variation-settings</code>. This will gives us access to both the predefined axes and to any custom axis the font provides. If at all possible we shouldn't use this property </p>
 
 <blockquote>
   <p>When possible, authors should generally use the other properties related to font variations (such as font-optical-sizing) whenever possible and only use this property for special cases where its use is the only way of accessing a particular infrequently used font variation.</p>
   <cite><a href="https://drafts.csswg.org/css-fonts-4/#font-variation-settings-def">Low-level font variation settings control: the font-variation-settings property</a></cite>
 </blockquote>
+
+
+<h3>Using a more complex Variable Font: Amstelvar</h3>
+
+<p><code>AmstelvarAlpha-VF</code> is a more complex fonts with many custom axes</p>
+
+
+
+<h3>Just for Fun: Decovar</h3>
+
+<p><code>DecovarAlpha-VF</code> is a decoraative font that really shines when it comes to using and combining custom axes to creaate stunning effects in a single font.</p>
 
 </article>
 <!-- Scripts -->
@@ -290,37 +385,7 @@ that the Roboto VF font was loaded successfully we can use
 <script src="scripts/vendor/fontfaceobserver.js"></script>
 <!-- FONT LOADER -->
 <!-- We do this here because it'll change from file to file -->
-<script>  
-  'use strict';
-  // Load the font(s)
-  var roboto = new FontFaceObserver('roboto-vf');
-  var robotoItalic = new FontFaceObserver('roboto-vf-italic')
-
-  // Capture a variable for the document element
-  var html = document.documentElement;
-
-  // Add 'fonts-loading' class
-  html.classList.add('fonts-loading');
-
-  //load fonts
-  Promise.all([
-    roboto.load(),
-    robotoItalic.load(),
-  ])
-    .then(function () {
-      // If they load switch class to fonts-loaded and
-      // log success to console
-      html.classList.remove('fonts-loading');
-      html.classList.add('fonts-loaded');
-      console.log('All fonts have loaded.');
-    }).catch(function () {
-      // If they fail to load switch class to fonts-failed
-      // and log failure to console
-      html.classList.remove('fonts-loading');
-      html.classList.add('fonts-failed');
-      console.log('One or more fonts failed to load');
-    });
-</script>
+<script src="scripts/fontloader.js"></script>
 
 </body>
 </html>
