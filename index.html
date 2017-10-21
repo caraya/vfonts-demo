@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,8 +22,7 @@
 
   <p> The idea behind <a href="http://publishing-project.rivendellweb.net/variable-fonts-for-the-win/">Variable Fonts</a> is to reduced the number and weights of the fonts in a page by consolidating the number and size of the fonts you download. Instead of downloading 4 font faces like I normally do:</p>
 
-<pre class="language-css"><code class="language-css">
-/* Regular font */
+<pre class="language-css"><code class="language-css">/* Regular font */
 @font-face {
   font-family: "notosans-regular";
   src:  url("../fonts/notosans-regular.woff2") format("woff2"),
@@ -112,21 +111,7 @@
 our fonts look in the page. </p>
 
 <p>There is a lower-level to control Variable Font features directly:
-<code>font-variation-settings</code>. Using this attribute, we can call the axes, both custom and predefined, directly. Assuming
-that the Roboto VF font was loaded successfully we can use
-<code>font-variation-settings</code> like this:
-</p>
-
-<pre><code class="language-css">.fonts-loaded body {
-  font-family: "roboto-vf", Arial, Helvetica, sans-serif;
-  font-size: 16px;
-  line-height: 1.4;
-  font-weight: 100;
-  font-variation-settings: "wdth" 100, "wght" 100;
-}
-</code></pre>
-
-<p>Where <code>wdth</code> corresponds to the width axis and <code>wght</code> corresponds to the weight.</p>
+<code>font-variation-settings</code>. Using this attribute, we can call the axes, both custom and predefined, directly.</p>
 
 <h2>Getting our hands dirty</h2>
 
@@ -153,15 +138,45 @@ that the Roboto VF font was loaded successfully we can use
 
 </aside>
 
-<aside class="message warning">
-  <p>This section is a work in progress. In particular, I'm still researching the scale for the axes values; does it go from 0 to 100% and -50% to 200% or, as I read in the spec, from 1 to 999 and from -50% to 200% or something else? Is dependent on the font?</p>
-</aside>
-
 <aside class="message danger">
   <p>This section relies on the <a href="https://www.w3.org/TR/css-fonts-4/">CSS Fonts Module Level 4</a> specification, currently an editor's draft at the W3C. As with any specification that hasn't reached, at least, candidate recommendation status at W3C or been integrted into a WHATWG living standard, you're cautioned not to put this code in a production or to have fallbacks that will work if Variable Fonts are not supported.</p>
   <p>Also be aware that the syntax discussed here <strong>can</strong> (and likely will) change before the specificatioon is finalized.</p>
 </aside>
 
+<h3>Before we start</h3>
+
+<p>One of the challenges I've faced when developing this page is that there is no uniform scale for fonts to use. Minimum and maximum values depend on the font and, unless the font developmer makes them available somehow, you will have to guess what those values are (it took me most of a day to figure out the values for the Roboto VF font I used for some code examples). This is a big pain in the ass but how to save ourselves from it?</p>
+<p>I discovered TTX, a part of <a href="https://pypi.python.org/pypi/FontTools">FontTools</a> in my browsing today. This tool will generate an XML file from our TrueType and OpenType fonts that we can inspect in an editor to get the data we need. As a Python package the installation is simple:</p>
+
+<pre class="language-bash"><code class="language-bash">pip install --upgrade fonttools</code></pre>
+
+<p>To generate a human readable XML file (yes, they exist), run the following command: </p>
+
+<pre class="language-bash"><code class="language-bash">ttx path/to/font.ttf</code></pre>
+<p>This will generate a TTX file that you can open in your favorite editor to search for the information we want. We're looking for the <code>fvar table</code> that will be represented by the &lt;fvar&gt; element. Part of the fvar table for the Decovar font looks like this:</p>
+
+<pre clas="language-xml"><code class="language-xml"> &lt;fvar&gt;
+
+    &lt;!-- Inline --&gt;
+    &lt;Axis&gt;
+      &lt;AxisTag&gt;BLDA&lt;/AxisTag&gt;
+      &lt;Flags&gt;0x0&lt;/Flags&gt;
+      &lt;MinValue&gt;0.0&lt;/MinValue&gt;
+      &lt;DefaultValue&gt;0.0&lt;/DefaultValue&gt;
+      &lt;MaxValue&gt;1000.0&lt;/MaxValue&gt;
+      &lt;AxisNameID&gt;256&lt;/AxisNameID&gt;
+    &lt;/Axis&gt;
+
+    &lt;!-- Rounded Slab --&gt;
+    &lt;Axis&gt;
+      &lt;AxisTag&gt;TRMC&lt;/AxisTag&gt;
+      &lt;Flags&gt;0x0&lt;/Flags&gt;
+      &lt;MinValue&gt;0.0&lt;/MinValue&gt;
+      &lt;DefaultValue&gt;0.0&lt;/DefaultValue&gt;
+      &lt;MaxValue&gt;1000.0&lt;/MaxValue&gt;
+      &lt;AxisNameID&gt;258&lt;/AxisNameID&gt;
+    &lt;/Axis&gt;</code></pre>
+    
 <h3>Downloading and preparing the fonts</h3>
 
 <p>The first thing we need to do is to load the font that we want to work with. This process is no different than loading regular fonts. The following example shows how to load two instancess of Roboto Variable Font. One for regular text and one for italics. </p>
@@ -186,7 +201,6 @@ that the Roboto VF font was loaded successfully we can use
 }
 </code>
 </pre>
-
 
 <p>I normally use <a href="https://fontfaceobserver.com">Font Face Observer</a> to make sure that my fonts loaded before I use them and provide a good experience without the jarring and potential disorientation fromm text flashes and, potentially, repositioning of the text when the final font loads.</p>
 
@@ -315,7 +329,7 @@ that the Roboto VF font was loaded successfully we can use
 <p>Using <code>RobotoUpright-VF</code> and <code>RobotoItalic-VF</code> we'll look at some things you can do with Variable Fonts.</p>
 
 <aside class="message info">
-  <p><code>RobotoUpright</code> and <code>RobotoItalic-VF</code> support 2 axes: Weight and Width.</p>
+  <p><code>RobotoUpright</code> and <code>RobotoItalic-VF</code> support 2 axes: <code>Weight</code> and <code>Width</code>. The values range from 0 to 200 and the default value for both axes is 100.</p>
 </aside>
 
 <p>Variable fonts work like any other web font. We can leveerage existing values for CSS typography properties that match the open type predefined axes like in the example below:</p>
@@ -337,22 +351,22 @@ that the Roboto VF font was loaded successfully we can use
 
 <pre class="language-css"><code class="language-css">.stretched2{
   font-size: 3em;
-  font-variation-settings: "wdth" 200%, "wght" 700;
+  font-variation-settings: "wdth" 200, "wght" 200;
 }
 </code></pre>
-
-<p>This will gives us access to both the predefined axes and to any custom axis the font provides. If at all possible we shouldn't use this property</p>
-
+<p class="stretched2">Demo text for analysis and evaluation.</p>
+<p>This will gives us access to both the predefined axes and to any custom axis the font provides. If at all possible we shouldn't use this property unless we absolutely have to. According to the Fonts, Leve 4 specification:</p>
 
 <blockquote>
   <p>When possible, authors should generally use the other properties related to font variations (such as font-optical-sizing) whenever possible and only use this property for special cases where its use is the only way of accessing a particular infrequently used font variation.</p>
   <cite><a href="https://drafts.csswg.org/css-fonts-4/#font-variation-settings-def">Low-level font variation settings control: the font-variation-settings property</a></cite>
 </blockquote>
 
+<p>Because we will be working primarily with custom axes we can use this. If we use predefined axes, we'll fall back to the existing attributes.</p>
 
 <h3>Using a more complex Variable Font: Amstelvar</h3>
 
-<p><code>AmstelvarAlpha-VF</code> is a more complex fonts with many custom axes and it exposes </p>
+<p><code>AmstelvarAlpha-VF</code> is a more complex fonts with many custom axes and it exposes some interesting pieces of the font to the designer and developer</p>
 
 
 <table width="80%" border="1">
@@ -426,10 +440,6 @@ that the Roboto VF font was loaded successfully we can use
 	
 <h3>Just for Fun: Decovar</h3>
 
-<aside class="message info">
-  <p>I found the axes short names but haven't been able to find the value ranges for them. I'm assuming it's 0 to 1. Again, it pays to do your reseach. </p>
-</aside>
-
 <p><code>DecovarAlpha-VF</code> is a decoraative font that really shines when it comes to using and combining custom axes to creaate stunning effects in a single font. The custom axes for Decovar represent either extreme values on a single axis or a combination of multiple axes.</p>
 
 <table width="80%" border="1">
@@ -438,10 +448,14 @@ that the Roboto VF font was loaded successfully we can use
     <tr>
       <th scope="col">Axis name</th>
       <th scope="col">Short name</th>
+      <th scope="col">Minimum Value</th>
+      <th scope="col">Maximum Value</th>
     </tr>
     <tr>
       <td>Weight</td>
       <td>wght</td>
+      <td rowspan="15">0.0</td>
+      <td rowspan="15">1000.0</td>
     </tr>
     <tr>
       <td>Inline</td>
@@ -502,9 +516,15 @@ that the Roboto VF font was loaded successfully we can use
   </tbody>
 </table>
 
+<p class="decoDemo1">The quick fox jumped</p>
+
+<h2>Experiments to work with</h2>
+
+<h3>Animating the changes</h3>
+
 <h2>Moving Forward: Issues to be aware of</h2>
 
-<p>Things don't mean the same for all fonts. There is no uniform value for custom axes and fonts are not required to support the same values in a given axis. For example, <strong>font A</strong> may support weight values between 300 and 500 while <strong>font B</strong> may support values vetween 100 and 300 so there's no reaal way  </p>
+<p>Things don't mean the same for all fonts. There is no uniform value for custom axes and fonts are not required to support the same values in a given axis. For example, <strong>Amstelvar</strong> has different minimum  while <strong>font B</strong> may support values vetween 100 and 300 so there's no reaal way  </p>
 
   <p>See the CSS WG Github Issue <a href="https://github.com/w3c/csswg-drafts/issues/573">573</a>, <a href="https://github.com/w3c/csswg-drafts/issues/539">539</a> and <a href="https://github.com/w3c/csswg-drafts/issues/518">518</a> to get an idea of what the issues may be</p>
 

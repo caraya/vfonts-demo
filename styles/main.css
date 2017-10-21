@@ -33,7 +33,7 @@ article {
 }
 
 
-/* Flexbox related classes */
+/* Figure related classes */
 
 figure {
   counter-increment: figure-count;
@@ -54,6 +54,7 @@ figure figcaption::before {
   content: "Figure " counter(figure-count) ": ";
 }
 
+/* Tables */
 table {
   border-collapse: collapse;
   width: 100%;
@@ -74,17 +75,6 @@ table th {
 
 table td {
   border: 1px solid black;
-}
-
-@media screen and (min-width: 20em) and (max-width: 37.5em) and (-webkit-min-device-pixel-ratio: 1) {
-  blockquote {
-      font-size: 1.25em;
-      line-height: 1.25;
-  }
-}
-
-p:not:first-of-type {
-  text-indent: 2em;
 }
 
 blockquote {
@@ -145,3 +135,17 @@ figure.video figcaption {
 figure.video figcaption::before {
   content: "Video " counter(video-count) ": ";
 }
+
+
+/* Media Queries */
+@media screen and (min-width: 20em) and (max-width: 37.5em) and (-webkit-min-device-pixel-ratio: 1) {
+  blockquote {
+    font-size: 1.25em;
+    line-height: 1.25;
+  }
+}
+
+  p:not:first-of-type {
+    text-indent: 2em;
+}
+
