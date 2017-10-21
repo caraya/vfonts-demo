@@ -55,8 +55,7 @@
   <p>The more information we pack in a Variable font the smaller the payload we have to download compared to individual font files for each style and font that we want to use.</p>
 </aside>
 
-<pre><code class="language-css">
-@font-face {
+<pre><code class="language-css">@font-face {
   font-family: "roboto-vf";
   src: url("type/RobotoUpright-VF.ttf") format("truetype");
     /* format should be truetype-variations but it doesn't seem to be supported */
@@ -168,8 +167,7 @@ that the Roboto VF font was loaded successfully we can use
 <p>The first thing we need to do is to load the font that we want to work with. This process is no different than loading regular fonts. The following example shows how to load two instancess of Roboto Variable Font. One for regular text and one for italics. </p>
 
 
-<pre class="language-css"><code class="language-css">
-@font-face {
+<pre class="language-css"><code class="language-css">@font-face {
   font-family: "roboto-vf";
   src: url("type/RobotoUpright-VF.ttf") format("truetype");
     /* format should be truetype-variations but it doesn't seem to be supported */
@@ -322,8 +320,7 @@ that the Roboto VF font was loaded successfully we can use
 
 <p>Variable fonts work like any other web font. We can leveerage existing values for CSS typography properties that match the open type predefined axes like in the example below:</p>
 
-<pre class="language-css"><code class="language-css">
-.stretched1 {
+<pre class="language-css"><code class="language-css">.stretched1 {
   font-size: 3em;
   font-stretch: 200%;
   font-weight: 900;
@@ -334,27 +331,18 @@ that the Roboto VF font was loaded successfully we can use
 
 <p class="stretched1">Demo text for <em>analysis</em> and evaluation.</p>
 
-<p>We can also use the lower-level <code>font-variation-settings</code> attribute that, in theory, should produce the same results as the previous example.</p>
+<h3>Lower Level Plumbing: font-variation-settings</h3>
 
-<aside class="message warning">
-  <p>The example below is not working in Chrome 62 (mac), Safari TP 42 and Firefox Developer Edition. It removes the <code>font-variation-settings</code> as invalid. Still researching if this is an issue with implementation or a use with my code.</p>  
-</aside>
+<p>Another alternative, useful when the font has a custom axis that is not covered by the predefined axes in the table above is <code>font-variation-settings</code>. We can revisit the Roboto example using font-variation-settings, like so:</p>
 
-<pre class="language-css"><code class="language-css">
-.stretched2{
+<pre class="language-css"><code class="language-css">.stretched2{
   font-size: 3em;
-  font-variation-settings: "wdth" 200%, "wght" 900;
+  font-variation-settings: "wdth" 200%, "wght" 700;
 }
 </code></pre>
 
-<p class="stretched2">Demo text for <em>analysis</em> and evaluation.</p>
+<p>This will gives us access to both the predefined axes and to any custom axis the font provides. If at all possible we shouldn't use this property</p>
 
-
-<p>For basic functionality this is overkill, but we'll find uses for it later when we look at fonts with custom axes. Having two axes to play and experiment with is not as challenging and interesting, the next font provides a little more grounds for experimentation.</p>
-
-<h3>Lower Level Plumbing: font-variation-settings</h3>
-
-<p>Another alternative, useful when the font has a custom axis that is not covered by the predefined axes in the table above is <code>font-variation-settings</code>. This will gives us access to both the predefined axes and to any custom axis the font provides. If at all possible we shouldn't use this property </p>
 
 <blockquote>
   <p>When possible, authors should generally use the other properties related to font variations (such as font-optical-sizing) whenever possible and only use this property for special cases where its use is the only way of accessing a particular infrequently used font variation.</p>
@@ -364,19 +352,161 @@ that the Roboto VF font was loaded successfully we can use
 
 <h3>Using a more complex Variable Font: Amstelvar</h3>
 
-<p><code>AmstelvarAlpha-VF</code> is a more complex fonts with many custom axes</p>
+<p><code>AmstelvarAlpha-VF</code> is a more complex fonts with many custom axes and it exposes </p>
 
 
+<table width="80%" border="1">
+  <caption>
+    Axes for Amstelvar
+  </caption>
+  <tbody>
+    <tr>
+      <th scope="col">Axis name</th>
+      <th scope="col">Short name</th>
+      <th scope="col">Minimum value</th>
+      <th scope="col">Maximum value</th>
+    </tr>
+    <tr>
+      <td>Weight</td>
+      <td>wght</td>
+      <td>38</td>
+      <td>250</td>
+    </tr>
+    <tr>
+      <td>Width</td>
+      <td>wdth</td>
+      <td>60</td>
+      <td>402</td>
+    </tr>
+    <tr>
+      <td>Optical Sizing</td>
+      <td>opsz</td>
+      <td>10</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <td>x opaque</td>
+      <td>XOPQ</td>
+      <td>5</td>
+      <td>500</td>
+    </tr>
+    <tr>
+      <td>x transparent</td>
+      <td>XTRA</td>
+      <td>42</td>
+      <td>402</td>
+    </tr>
+    <tr>
+      <td>y opaque</td>
+      <td>YOPQ</td>
+      <td>4</td>
+      <td>85</td>
+    </tr>
+    <tr>
+      <td>lc y transparent</td>
+      <td>YTLC</td>
+      <td>445</td>
+      <td>600</td>
+    </tr>
+    <tr>
+      <td>Serif height</td>
+      <td>YTSE</td>
+      <td>0</td>
+      <td>48</td>
+    </tr>
+    <tr>
+      <td>Grade</td>
+      <td>GRAD</td>
+      <td>25</td>
+      <td>250</td>
+    </tr>
+  </tbody>
+</table>
 
+	
 <h3>Just for Fun: Decovar</h3>
 
-<p><code>DecovarAlpha-VF</code> is a decoraative font that really shines when it comes to using and combining custom axes to creaate stunning effects in a single font.</p>
+<aside class="message info">
+  <p>I found the axes short names but haven't been able to find the value ranges for them. I'm assuming it's 0 to 1. Again, it pays to do your reseach. </p>
+</aside>
+
+<p><code>DecovarAlpha-VF</code> is a decoraative font that really shines when it comes to using and combining custom axes to creaate stunning effects in a single font. The custom axes for Decovar represent either extreme values on a single axis or a combination of multiple axes.</p>
+
+<table width="80%" border="1">
+  <caption>Axes names and short names for Decovar font</caption>
+  <tbody>
+    <tr>
+      <th scope="col">Axis name</th>
+      <th scope="col">Short name</th>
+    </tr>
+    <tr>
+      <td>Weight</td>
+      <td>wght</td>
+    </tr>
+    <tr>
+      <td>Inline</td>
+      <td>INLN</td>
+    </tr>
+    <tr>
+      <td>Worm</td>
+      <td>WORM</td>
+    </tr>
+    <tr>
+      <td>Inline Skeleton</td>
+      <td>SINL</td>
+    </tr>
+    <tr>
+      <td>Worm Skeleton</td>
+      <td>SWRM</td>
+    </tr>
+    <tr>
+      <td>Stripes</td>
+      <td>SSTR</td>
+    </tr>
+    <tr>
+      <td>Rounded</td>
+      <td>TRND</td>
+    </tr>
+    <tr>
+      <td>Sheared</td>
+      <td>TSHR</td>
+    </tr>
+    <tr>
+      <td>Inline Terminal</td>
+      <td>TINL</td>
+    </tr>
+    <tr>
+      <td>Open Inline Terminal</td>
+      <td>TOIL</td>
+    </tr>
+    <tr>
+      <td>Worm Terminal</td>
+      <td>TWRM</td>
+    </tr>
+    <tr>
+      <td>Flared</td>
+      <td>TFLR</td>
+    </tr>
+    <tr>
+      <td>Bifurcated</td>
+      <td>TBIF</td>
+    </tr>
+    <tr>
+      <td>Slab</td>
+      <td>TSLB</td>
+    </tr>
+    <tr>
+      <td>Rounded Slab</td>
+      <td>TRSB</td>
+    </tr>
+  </tbody>
+</table>
 
 <h2>Moving Forward: Issues to be aware of</h2>
 
-<p>Things don't mean the same for all fonts. </p>
+<p>Things don't mean the same for all fonts. There is no uniform value for custom axes and fonts are not required to support the same values in a given axis. For example, <strong>font A</strong> may support weight values between 300 and 500 while <strong>font B</strong> may support values vetween 100 and 300 so there's no reaal way  </p>
 
-  <p>See the CSS WG Github <a href="https://github.com/w3c/csswg-drafts/issues/573">Issue 573</a>, <a href="https://github.com/w3c/csswg-drafts/issues/539">539</a> and <a href="https://github.com/w3c/csswg-drafts/issues/518">518</a> to get an idea of what the issues may be</p>
+  <p>See the CSS WG Github Issue <a href="https://github.com/w3c/csswg-drafts/issues/573">573</a>, <a href="https://github.com/w3c/csswg-drafts/issues/539">539</a> and <a href="https://github.com/w3c/csswg-drafts/issues/518">518</a> to get an idea of what the issues may be</p>
 
 
 
