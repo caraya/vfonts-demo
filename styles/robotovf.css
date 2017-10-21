@@ -5,7 +5,6 @@
   src: url("type/RobotoUpright-VF.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
 }
 
 @font-face {
@@ -13,7 +12,6 @@
   src: url("type/RobotoItalic-VF.ttf") format("truetype");
   font-weight: normal;
   font-style: italic;
-  font-display: swap;
 }
 
 body,
@@ -21,7 +19,6 @@ body,
   font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
   line-height: 1.375;
-  /* font weight goes from */
 }
 
 .fonts-loaded body {
@@ -44,7 +41,7 @@ em em {
 
 code {
   font-weight: 700;
-  font-variation-settings: "wght" 1 "wdth" 1.5;
+  font-variation-settings: "wght" 700;
 }
 
 strong,
@@ -66,10 +63,10 @@ em strong {
 .stretched1 {
   font-size: 3em;
   font-stretch: 200%;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .stretched2{
   font-size: 3em;
-  font-variation-settings: "wght" 1, "wdth" 200%;
+  font-variation-settings: "wdth" 600, "wght" 700;
 }

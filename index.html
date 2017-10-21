@@ -337,13 +337,13 @@ that the Roboto VF font was loaded successfully we can use
 <p>We can also use the lower-level <code>font-variation-settings</code> attribute that, in theory, should produce the same results as the previous example.</p>
 
 <aside class="message warning">
-  <p>The example below is not respecting the second axis in font-variation-settings. Reseaching if this is a browser implementationn issue or if it's a code issue on my end.</p>
+  <p>The example below is not working in Chrome 62 (mac), Safari TP 42 and Firefox Developer Edition. It removes the <code>font-variation-settings</code> as invalid. Still researching if this is an issue with implementation or a use with my code.</p>  
 </aside>
 
 <pre class="language-css"><code class="language-css">
 .stretched2{
   font-size: 3em;
-  font-variation-settings: "wdth" 200%, "wght" 700;
+  font-variation-settings: "wdth" 200%, "wght" 900;
 }
 </code></pre>
 
@@ -371,6 +371,14 @@ that the Roboto VF font was loaded successfully we can use
 <h3>Just for Fun: Decovar</h3>
 
 <p><code>DecovarAlpha-VF</code> is a decoraative font that really shines when it comes to using and combining custom axes to creaate stunning effects in a single font.</p>
+
+<h2>Moving Forward: Issues to be aware of</h2>
+
+<p>Things don't mean the same for all fonts. </p>
+
+  <p>See the CSS WG Github <a href="https://github.com/w3c/csswg-drafts/issues/573">Issue 573</a>, <a href="https://github.com/w3c/csswg-drafts/issues/539">539</a> and <a href="https://github.com/w3c/csswg-drafts/issues/518">518</a> to get an idea of what the issues may be</p>
+
+
 
 </article>
 <!-- Scripts -->
