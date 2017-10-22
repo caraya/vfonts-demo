@@ -1,5 +1,5 @@
 // Alternatively, use your own local copy of workbox-sw.prod.vX.Y.Z.js
-importScripts('workbox-sw.prod.v2.1.0.js');
+importScripts('./scripts/workbox-sw.prod.v2.1.0.js');
 
 const workboxSW = new goog.SWLib();
 // Pass in an empty array for our dev environment service worker.
@@ -64,8 +64,12 @@ workboxSW.precache([
     "revision": "01ab7c4a7c518cafd2bc645d14b9d68e"
   },
   {
+    "url": "scripts/workbox-sw.prod.v2.1.0.js",
+    "revision": "e5f207838d7fd9c81835d5705a73cfa2"
+  },
+  {
     "url": "src/sw.js",
-    "revision": "165fe0749152cc6e17fa6834f401483a"
+    "revision": "245f0e6bb9e2d20e608b08dba2f9755d"
   },
   {
     "url": "styles/amstelvar.css",
@@ -140,8 +144,8 @@ workboxSW.precache([
     "revision": "7bbe790ce4ec2b643198fd8dfd64849e"
   },
   {
-    "url": "workbox-sw.prod.v2.1.0.js",
-    "revision": "e5f207838d7fd9c81835d5705a73cfa2"
+    "url": "sw.js",
+    "revision": "2fda519bf2c3ea65319277e9139c6b41"
   }
 ]);
 
