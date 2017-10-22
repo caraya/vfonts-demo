@@ -1,30 +1,19 @@
-importScripts('workbox-sw.prod.v2.1.0.js');
+// Alternatively, use your own local copy of workbox-sw.prod.vX.Y.Z.js
+importScripts('https://unpkg.com/workbox-sw@0.0.1');
 
-/**
- * DO NOT EDIT THE FILE MANIFEST ENTRY
- *
- * The method precache() does the following:
- * 1. Cache URLs in the manifest to a local cache.
- * 2. When a network request is made for any of these URLs the response
- *    will ALWAYS comes from the cache, NEVER the network.
- * 3. When the service worker changes ONLY assets with a revision change are
- *    updated, old cache entries are left as is.
- *
- * By changing the file manifest manually, your users may end up not receiving
- * new versions of files because the revision hasn't changed.
- *
- * Please use workbox-build or some other tool / approach to generate the file
- * manifest which accounts for changes to local files and update the revision
- * accordingly.
- */
-const fileManifest = [
-  {
-    "url": "amstel.html",
-    "revision": "8d54ffbcd15187467fd587ad6a06b0c9"
-  },
+const workboxSW = new goog.SWLib();
+// Pass in an empty array for our dev environment service worker.
+// As part of the production build process, the `service-worker`
+// gulp task will automatically replace the empty array with the
+// current the precache manifest.
+workboxSW.precache([
   {
     "url": "decovar.html",
     "revision": "84091a6a37be8603089b3071874adc61"
+  },
+  {
+    "url": "eslintrc.js",
+    "revision": "aa14a69fac2f22cbe32426f42b268171"
   },
   {
     "url": "index.html",
@@ -32,11 +21,11 @@ const fileManifest = [
   },
   {
     "url": "offline.html",
-    "revision": "846a72ea0092f96e55ae64cd4bf30059"
+    "revision": "c25b4949a324010a270d2a12b1f817f3"
   },
   {
     "url": "scripts/fontloader.js",
-    "revision": "87cd8977241de8f64aebfc274717349d"
+    "revision": "e6678741939510d27d39f4c42b6fc212"
   },
   {
     "url": "scripts/lazy-load-plain.js",
@@ -73,6 +62,10 @@ const fileManifest = [
   {
     "url": "scripts/vendor/prism.js",
     "revision": "01ab7c4a7c518cafd2bc645d14b9d68e"
+  },
+  {
+    "url": "src/sw.js",
+    "revision": "30443f82e8c1867173445a9bc2d58505"
   },
   {
     "url": "styles/amstelvar.css",
@@ -145,8 +138,86 @@ const fileManifest = [
   {
     "url": "styles/video-load.css",
     "revision": "7bbe790ce4ec2b643198fd8dfd64849e"
+  },
+  {
+    "url": "workbox-sw.prod.v2.1.0.js",
+    "revision": "e5f207838d7fd9c81835d5705a73cfa2"
   }
-];
+]);
 
-const workboxSW = new self.WorkboxSW();
-workboxSW.precache(fileManifest);
+// All navigation requests should be routed to the App Shell.
+// since we're not using app shell it's commented out
+// workboxSW.router.registerNavigationRoute('/');
+
+// Use a cache first strategy for files from googleapis.com
+workboxSW.router.registerRoute(
+  new RegExp('.googleapis.com$'),
+  workboxSW.strategies.cacheFirst({
+    cacheName: 'googleapis',
+    cacheExpiration: {
+      // Expire after 3 days (expressed in seconds)
+      maxAgeSeconds: 3 * 24 * 60 * 60
+    }
+  })
+);
+
+// Use a cache-first strategy for the images
+workboxSW.router.registerRoute(
+  new RegExp('/.(?:png|gif|jpg)$/'),
+  workboxSW.strategies.cacheFirst({
+    cacheName: 'images',
+    cacheExpiration: {
+      // maximum 50 entries
+      maxEntries: 50,
+      // Expire after 30 days (expressed in seconds)
+      maxAgeSeconds: 30 * 24 * 60 * 60
+    },
+    // The images are returned as opaque responses, with a status of 0.
+    // Normally these wouldn't be cached; here we opt-in to caching them.
+    // If the image returns a satus 200 we cache it too
+    cacheableResponse: {statuses: [0, 200]}
+  })
+);
+
+// Match all .html and .html files use cacheFirst
+workboxSW.router.registerRoute(
+  new RegExp('/.html$|.htm$/'),
+  workboxSW.strategies.cacheFirst({
+    cacheName: 'content',
+    cacheExpiration: {
+      maxAgeSeconds: 1 * 24 * 60 * 60
+    }
+  })
+);
+
+// For video we use a network only strategy. We don't want to clog
+// the cache with large video files
+workboxSW.router.registerRoute(
+  new RegExp('/.(?:youtube|vimeo).com$/'),
+  workboxSW.strategies.networkOnly()
+);
+
+// The default route uses a cache first strategy
+workboxSW.router.registerRoute('/*',
+  workboxSW.strategies.cacheFirst()
+);
+
+```
+
+The modified service worker takes a different approach than what we saw before using `workbox-build`. Innstead of building the manifest directly, it injects the list of files in the manifest into the service worker. Remember that we put an empty array on the precache section of the service worker. This is the task that will populate the empty array with the files we need to precache. 
+
+And the best part is that, if we missed anythhing, the files will be cached at run time. Not optimal but we will not loose any content. 
+
+```javascript
+gulp.task('service-worker', () => {
+  return workboxBuild.injectManifest({
+    swSrc: 'src/service-worker.js',
+    swDest: '_site/service-worker.js',
+    globDirectory: '_site',
+    staticFileGlobs: [
+      'rev/js/**/*.js',
+      'rev/styles/*.css',
+      'images/**/*'
+    ]
+  });
+});
