@@ -6,10 +6,8 @@
 }
 
 
-p.decoDemo1 {
+.decoDemo1 {
   font-family: "decovar-vf";
-  font-size: 5em;
-  font-variation-settings: "INLN" 400.0;
+  font-size: 3em;
+  font-variation-settings: "inln" 999;
 }
-
-/*  font-variation-settings: "wdth" 100, "wght" 100;*/

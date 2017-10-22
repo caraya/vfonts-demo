@@ -1,10 +1,43 @@
 /**/
 
 @font-face {
-  font-family: "amstelvaar-vf";
+  font-family: "amstelvar-vf";
   src: url("type/AmstelvarAlpha-VF.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
+
+.amstelvar1 {
+  font-family: "amstelvar-vf";
+  font-size: 3em;
+  hyphens: none;
+  line-height: 1.2;
+  font-variation-settings: 
+  'cntr' 99.9998, 
+  'grad' 176, 
+  'opsz' 13.999, 
+  'srfr' 34.998, 
+  'wdth' 803.999, 
+  'wght' 175.98, 
+  'xhgt' 999.988;
+}
+
+.amstelvar2 {
+  font-family: "amstelvar-vf";
+  font-size: 3em;
+  hyphens: none;
+  line-height: 1.2;
+  font-variation-settings: 
+  'cntr' 99.9998, 
+  'grad' 176, 
+  'opsz' 13.999, 
+  'srfr' 34.998, 
+  'wdth' 803.999, 
+  'wght' 175.98,
+  'xhgt' 999.988;
+  
+}
+
+
 
