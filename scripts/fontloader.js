@@ -3,7 +3,7 @@
    // Load the font(s)
   var roboto = new FontFaceObserver('roboto-vf');
   var robotoItalic = new FontFaceObserver('roboto-vf-italic');
-  var amstelvar = new FontFaceObserver('amstelvaar-vf');
+  var amstelvar = new FontFaceObserver('amstelvar-vf');
   var decovar = new FontFaceObserver('decovar-vf');
 
   // Capture a variable for the document element
