@@ -64,23 +64,3 @@ workboxSW.router.registerRoute(
 workboxSW.router.registerRoute('/*',
   workboxSW.strategies.cacheFirst()
 );
-
-```
-
-The modified service worker takes a different approach than what we saw before using `workbox-build`. Innstead of building the manifest directly, it injects the list of files in the manifest into the service worker. Remember that we put an empty array on the precache section of the service worker. This is the task that will populate the empty array with the files we need to precache. 
-
-And the best part is that, if we missed anythhing, the files will be cached at run time. Not optimal but we will not loose any content. 
-
-```javascript
-gulp.task('service-worker', () => {
-  return workboxBuild.injectManifest({
-    swSrc: 'src/service-worker.js',
-    swDest: '_site/service-worker.js',
-    globDirectory: '_site',
-    staticFileGlobs: [
-      'rev/js/**/*.js',
-      'rev/styles/*.css',
-      'images/**/*'
-    ]
-  });
-});
