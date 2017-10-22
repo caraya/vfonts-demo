@@ -1,5 +1,5 @@
 // Alternatively, use your own local copy of workbox-sw.prod.vX.Y.Z.js
-importScripts('https://unpkg.com/workbox-sw@0.0.1');
+importScripts('workbox-sw.prod.v2.1.0.js');
 
 const workboxSW = new goog.SWLib();
 // Pass in an empty array for our dev environment service worker.
