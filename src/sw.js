@@ -1,16 +1,12 @@
-// Alternatively, use your own local copy of workbox-sw.prod.vX.Y.Z.js
-importScripts('workbox-sw.prod.v2.1.0.js');
+importScripts('scripts/workbox-sw.prod.v2.1.0.js');
+// const workboxSW = new self.SWLib();
+const workboxSW = new self.WorkboxSW();
 
-const workboxSW = new goog.SWLib();
 // Pass in an empty array for our dev environment service worker.
 // As part of the production build process, the `service-worker`
 // gulp task will automatically replace the empty array with the
-// current the precache manifest.
+// current precache manifest.
 workboxSW.precache([]);
-
-// All navigation requests should be routed to the App Shell.
-// since we're not using app shell it's commented out
-// workboxSW.router.registerNavigationRoute('/');
 
 // Use a cache first strategy for files from googleapis.com
 workboxSW.router.registerRoute(
@@ -18,9 +14,20 @@ workboxSW.router.registerRoute(
   workboxSW.strategies.cacheFirst({
     cacheName: 'googleapis',
     cacheExpiration: {
-      // Expire after 3 days (expressed in seconds)
-      maxAgeSeconds: 3 * 24 * 60 * 60
-    }
+      // Expire after 30 days (expressed in seconds)
+      maxAgeSeconds: 30 * 24 * 60 * 60,
+    },
+  })
+);
+
+workboxSW.router.registerRoute(
+  new RegExp('/.(?:ttf|otf|woff|woff2)$/'),
+  workboxSW.strategies.cacheFirst({
+    cacheName: 'fonts',
+    cacheExpiration: {
+      // Expire after 24 hours (expressed in seconds)
+      maxAgeSeconds: 1 * 24 * 60 * 60,
+    },
   })
 );
 
@@ -33,12 +40,12 @@ workboxSW.router.registerRoute(
       // maximum 50 entries
       maxEntries: 50,
       // Expire after 30 days (expressed in seconds)
-      maxAgeSeconds: 30 * 24 * 60 * 60
+      maxAgeSeconds: 30 * 24 * 60 * 60,
     },
     // The images are returned as opaque responses, with a status of 0.
     // Normally these wouldn't be cached; here we opt-in to caching them.
     // If the image returns a satus 200 we cache it too
-    cacheableResponse: {statuses: [0, 200]}
+    cacheableResponse: {statuses: [0, 200]},
   })
 );
 
@@ -48,8 +55,8 @@ workboxSW.router.registerRoute(
   workboxSW.strategies.cacheFirst({
     cacheName: 'content',
     cacheExpiration: {
-      maxAgeSeconds: 1 * 24 * 60 * 60
-    }
+      maxAgeSeconds: 1 * 24 * 60 * 60,
+    },
   })
 );
 
@@ -57,6 +64,12 @@ workboxSW.router.registerRoute(
 // the cache with large video files
 workboxSW.router.registerRoute(
   new RegExp('/.(?:youtube|vimeo).com$/'),
+  workboxSW.strategies.networkOnly()
+);
+
+// Local videos get the same treatment, only pull from the network
+workboxSW.router.registerRoute(
+  new RegExp('/.(?:mp4|webm|ogg)$/'),
   workboxSW.strategies.networkOnly()
 );
 

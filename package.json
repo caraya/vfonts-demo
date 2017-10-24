@@ -1,0 +1,27 @@
+{
+  "name": "vfonts-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sw.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/caraya/vfonts-demo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/caraya/vfonts-demo/issues"
+  },
+  "homepage": "https://github.com/caraya/vfonts-demo#readme",
+  "devDependencies": {
+    "eslint": "^4.9.0",
+    "eslint-config-google": "^0.9.1"
+  },
+  "dependencies": {
+    "workbox-sw": "^2.1.0"
+  }
+}
