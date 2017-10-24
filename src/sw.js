@@ -1,4 +1,4 @@
-importScripts('scripts/workbox-sw.prod.v2.1.0.js');
+importScripts('scripts/workbox-sw.dev.v2.1.0.js');
 // const workboxSW = new self.SWLib();
 const workboxSW = new self.WorkboxSW();
 
@@ -10,7 +10,7 @@ workboxSW.precache([]);
 
 // Use a cache first strategy for files from googleapis.com
 workboxSW.router.registerRoute(
-  new RegExp('.googleapis.com$'),
+  new RegExp('https://ajax.googleapis.com/ajax/libs'),
   workboxSW.strategies.cacheFirst({
     cacheName: 'googleapis',
     cacheExpiration: {
@@ -20,8 +20,9 @@ workboxSW.router.registerRoute(
   })
 );
 
+// Note to self, woff regexp will also match woff2 :P
 workboxSW.router.registerRoute(
-  new RegExp('/.(?:ttf|otf|woff|woff2)$/'),
+  new RegExp('.(ttf|otf|woff)$'),
   workboxSW.strategies.cacheFirst({
     cacheName: 'fonts',
     cacheExpiration: {
@@ -31,9 +32,19 @@ workboxSW.router.registerRoute(
   })
 );
 
+workboxSW.router.registerRoute(
+  new RegExp('.(css)$'),
+  workboxSW.strategies.networkFirst({
+    cacheName: 'css',
+    cacheExpiration: {
+      maxAgeSeconds: 1 * 24 * 60 * 60,
+    },
+  })
+);
+
 // Use a cache-first strategy for the images
 workboxSW.router.registerRoute(
-  new RegExp('/.(?:png|gif|jpg)$/'),
+  new RegExp('.(?:png|gif|jpg|svg)$'),
   workboxSW.strategies.cacheFirst({
     cacheName: 'images',
     cacheExpiration: {
@@ -51,7 +62,7 @@ workboxSW.router.registerRoute(
 
 // Match all .html and .html files use cacheFirst
 workboxSW.router.registerRoute(
-  new RegExp('/.html$|.htm$/'),
+  new RegExp('(.html|.htm)$'),
   workboxSW.strategies.cacheFirst({
     cacheName: 'content',
     cacheExpiration: {
@@ -60,10 +71,10 @@ workboxSW.router.registerRoute(
   })
 );
 
-// For video we use a network only strategy. We don't want to clog
+// For video we use a network only strategy. We don't want to log
 // the cache with large video files
 workboxSW.router.registerRoute(
-  new RegExp('/.(?:youtube|vimeo).com$/'),
+  new RegExp('.(?:youtube|vimeo).com$'),
   workboxSW.strategies.networkOnly()
 );
 
@@ -74,6 +85,6 @@ workboxSW.router.registerRoute(
 );
 
 // The default route uses a cache first strategy
-workboxSW.router.registerRoute('/*',
-  workboxSW.strategies.cacheFirst()
-);
+workboxSW.router.setDefaultHandler({
+  handler: workboxSW.strategies.cacheFirst()
+});

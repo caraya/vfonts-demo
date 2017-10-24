@@ -5,15 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Variable Fonts Demo</title>
+  <link rel="stylesheet" href="styles/normalize.css">
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/prism.css">
   <link rel="stylesheet" href="styles/video-load.css">
   <link rel="stylesheet" href="styles/robotovf.css">
   <link rel="stylesheet" href="styles/amstelvar.css">
   <link rel="stylesheet" href="styles/decovar.css">
+
 </head>
 <body>
-
+<a href="https://github.com/caraya/vfonts-demo">
+  <img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67"
+    alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png">
+</a>
 <article class="container">
   <header>
     <h2>Variable Fonts Demo and Explainer</h2>
@@ -176,7 +181,7 @@ our fonts look in the page. </p>
       &lt;MaxValue&gt;1000.0&lt;/MaxValue&gt;
       &lt;AxisNameID&gt;258&lt;/AxisNameID&gt;
     &lt;/Axis&gt;</code></pre>
-    
+
 <h3>Downloading and preparing the fonts</h3>
 
 <p>The first thing we need to do is to load the font that we want to work with. This process is no different than loading regular fonts. The following example shows how to load two instancess of Roboto Variable Font. One for regular text and one for italics. </p>
@@ -433,23 +438,23 @@ our fonts look in the page. </p>
     </tr>
   </tbody>
 </table>
-  
+
 <pre class="language-css"><code>.amstelvar1 {
   font-family: "amstelvar-vf";
   font-size: 3em;
   hyphens: none;
   line-height: 1.2;
-  font-variation-settings: 
-  'cntr' 99.9998, 
-  'grad' 176, 
-  'opsz' 13.999, 
-  'srfr' 34.998, 
-  'wdth' 803.999, 
-  'wght' 175.98, 
+  font-variation-settings:
+  'cntr' 99.9998,
+  'grad' 176,
+  'opsz' 13.999,
+  'srfr' 34.998,
+  'wdth' 803.999,
+  'wght' 175.98,
   'xhgt' 999.988;
 }
 </code></pre>
-  
+
 <p class="amstelvar1">This is a demo for the Amstelvar variable font using custom axes.</p>
 
 <h3>Just for Fun: Decovar</h3>
@@ -548,13 +553,13 @@ our fonts look in the page. </p>
 <h3>Animating the changes</h3>
 <h2>Moving Forward: Issues to be aware of </h2>
   <p>These are some of the things I've learned when working with variable fonts:</p>
-  
-  <h3>Things don't mean the same for all fonts.</h3> 
-  
+
+  <h3>Things don't mean the same for all fonts.</h3>
+
   <p>There is no uniform value for custom axes and fonts are not required to support the same values in a given axis. For example, <strong>Amstelvar</strong> has different minimum  while <strong>Decovar</strong> has multiple axes that all support values between 0 and 1000, so there's no real way to create a scale that works for every font. TTX helps solve the issue but it requires Python and an additional tool to get the information we need before we can work with fonts.</p>
 
   <p>See the CSS WG Github Issue <a href="https://github.com/w3c/csswg-drafts/issues/573">573</a>, <a href="https://github.com/w3c/csswg-drafts/issues/539">539</a> and <a href="https://github.com/w3c/csswg-drafts/issues/518">518</a> to get an idea of what the issues may be.</p>
-  
+
 </article>
 <!-- Scripts -->
 <!-- PRISM-->
