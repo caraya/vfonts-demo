@@ -8,6 +8,20 @@
 
 .decoDemo1 {
   font-family: "decovar-vf";
-  font-size: 3em;
-  font-variation-settings: "inln" 999;
+  font-size: 5rem;
+  font-variation-settings: "BLDA" 999;
+}
+
+.decoDemo2 {
+  font-family: "decovar-vf";
+  font-size: 5rem;
+  animation: deco-animation;
+  animation-duration: 3s;
+  animation-iteration-count: 10;
+  animation-direction: alternate;
+}
+
+@keyframes deco-animation {
+  0%   { font-variation-settings: "BLDA" 0, "TRMF" 0; }
+  100% { font-variation-settings: "BLDA" 999, "TRMF" 600; }
 }

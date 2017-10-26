@@ -74,14 +74,6 @@ workboxSW.router.registerRoute(
 );
 
 workboxSW.router.registerRoute(
-  'https://s3.amazonaws.com/github/ribbons/',
-  workboxSW.strategies.cacheFirst({
-    cacheName: 'images',
-    cacheableResponse: {statuses: [0, 200]},
-  })
-);
-
-workboxSW.router.registerRoute(
   new RegExp('.(css)$'),
   workboxSW.strategies.networkFirst({
     cacheName: 'css',

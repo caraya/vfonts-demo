@@ -153,11 +153,11 @@ our fonts look in the page. </p>
 <p>One of the challenges I've faced when developing this page is that there is no uniform scale for fonts to use. Minimum and maximum values depend on the font and, unless the font developmer makes them available somehow, you will have to guess what those values are (it took me most of a day to figure out the values for the Roboto VF font I used for some code examples). This is a big pain in the ass but how to save ourselves from it?</p>
 <p>I discovered TTX, a part of <a href="https://pypi.python.org/pypi/FontTools">FontTools</a> in my browsing today. This tool will generate an XML file from our TrueType and OpenType fonts that we can inspect in an editor to get the data we need. As a Python package the installation is simple:</p>
 
-<pre class="language-bash"><code class="language-bash">pip install --upgrade fonttools</code></pre>
+<pre class="command-line  language-bash" data-user="root" data-host="localhost"><code class="language-bash">pip install --upgrade fonttools</code></pre>
 
 <p>To generate a human readable XML file (yes, they exist), run the following command: </p>
 
-<pre class="language-bash"><code class="language-bash">ttx path/to/font.ttf</code></pre>
+<pre class="command-line  language-bash" data-user="root" data-host="localhost"><code class="language-bash">ttx path/to/font.ttf</code></pre>
 <p>This will generate a TTX file that you can open in your favorite editor to search for the information we want. We're looking for the <code>fvar table</code> that will be represented by the &lt;fvar&gt; element. Part of the fvar table for the Decovar font looks like this:</p>
 
 <pre clas="language-xml"><code class="language-xml"> &lt;fvar&gt;
@@ -252,7 +252,7 @@ our fonts look in the page. </p>
 
 <p>To acommodate the new features in Open Type, the CSS working group has added new values to existing features to match the predefined Axes on these fonts and their values. The table below shows the Open Type 1.8 predefined axes, the equivalent CSS Propperties and the values these properties can take.</p>
 
-<table>
+<table style="width: 80%; margin: 0 auto;">
   <caption>
     Equivalency Between Open Type Axis and CSS Properties
   </caption>
@@ -371,7 +371,7 @@ our fonts look in the page. </p>
 
 <h3>Using a more complex Variable Font: Amstelvar</h3>
 <p><code>AmstelvarAlpha-VF</code> is a more complex fonts with many custom axes and it exposes some interesting pieces of the font to the designer and developer. It is also an example of a font using custom axes (those wih uppercase names in the table below). </p>
-<table width="80%" border="1">
+<table style="width: 80%; margin: 0 auto;">
   <caption>
     Axes for Amstelvar
   </caption>
@@ -438,7 +438,7 @@ our fonts look in the page. </p>
     </tr>
   </tbody>
 </table>
-
+<p>The code below shows how to modify custom axes for a font that supports them. Amstelvar supports all the axes listed in the table and some additional ones; it also shows how to combine traditional CSS rules with the new possibilities offered by Variable Fonts. </p>
 <pre class="language-css"><code>.amstelvar1 {
   font-family: "amstelvar-vf";
   font-size: 3em;
@@ -461,7 +461,7 @@ our fonts look in the page. </p>
 
 <p><code>DecovarAlpha-VF</code> is a decoraative font that really shines when it comes to using and combining custom axes to creaate stunning effects in a single font. The custom axes for Decovar represent either extreme values on a single axis or a combination of multiple axes.</p>
 
-<table width="80%" border="1">
+<table style="width: 80%; margin: 0 auto;">
   <caption>Axes names and short names for Decovar font</caption>
   <tbody>
     <tr>
@@ -473,84 +473,105 @@ our fonts look in the page. </p>
     <tr>
       <td>Weight</td>
       <td>wght</td>
-      <td rowspan="15">0.0</td>
-      <td rowspan="15">1000.0</td>
+      <td rowspan="16">0.0</td>
+      <td rowspan="16">1000.0</td>
     </tr>
     <tr>
       <td>Inline</td>
-      <td>INLN</td>
+      <td>BLDA</td>
     </tr>
     <tr>
-      <td>Worm</td>
-      <td>WORM</td>
-    </tr>
+      <td>Shearded</td>
+      <td>TRMD</td>
+    </tr>  
     <tr>
-      <td>Inline Skeleton</td>
-      <td>SINL</td>
-    </tr>
-    <tr>
-      <td>Worm Skeleton</td>
-      <td>SWRM</td>
+      <td>Rounded Slab</td>
+      <td>TRMC</td>
     </tr>
     <tr>
       <td>Stripes</td>
-      <td>SSTR</td>
-    </tr>
-    <tr>
-      <td>Rounded</td>
-      <td>TRND</td>
-    </tr>
-    <tr>
-      <td>Sheared</td>
-      <td>TSHR</td>
-    </tr>
-    <tr>
-      <td>Inline Terminal</td>
-      <td>TINL</td>
-    </tr>
-    <tr>
-      <td>Open Inline Terminal</td>
-      <td>TOIL</td>
+      <td>SKLD</td>
     </tr>
     <tr>
       <td>Worm Terminal</td>
-      <td>TWRM</td>
+      <td>TRML</td>
+    </tr>
+    <tr>
+      <td> Inline Skeleton </td>
+      <td>SKLA</td>
+    </tr>
+    <tr>
+      <td>Open Inline Terminal</td>
+      <td>TRMF</td>
+    </tr>
+    <tr>
+      <td>Inline Terminal</td>
+      <td>TRMK</td>
+    </tr>
+    <tr>
+      <td>Worm</td>
+      <td>BLDB</td>
+    </tr>
+    <tr>
+      <td>Weight</td>
+      <td>WMX2</td>
     </tr>
     <tr>
       <td>Flared</td>
-      <td>TFLR</td>
+      <td>TRMB</td>
     </tr>
     <tr>
-      <td>Bifurcated</td>
-      <td>TBIF</td>
+      <td>Rounded</td>
+      <td>TRMA</td>
+    </tr>
+    <tr>
+      <td>Worm Skeleton</td>
+      <td>SKLB</td>
     </tr>
     <tr>
       <td>Slab</td>
-      <td>TSLB</td>
+      <td>TRMG</td>
     </tr>
     <tr>
-      <td>Rounded Slab</td>
-      <td>TRSB</td>
+      <td> Bifurcated </td>
+      <td>TRME</td>
     </tr>
   </tbody>
 </table>
 
-<aside class="messsage info">
-  <p>The example below should work. The custom axis name is correct and the value is correct but it doesn't work on browsers. Researching why.</p>
+<aside class="message info">
+  <p>When looking at font data (the <code>ttx</code> file in my case) be aware that the axes names may not do what you want them to. When I fiirst created the table </p>
 </aside>
 
 <pre><code class="language-css">.decoDemo1 {
   font-family: "decovar-vf";
   font-size: 5rem;
-  font-variation-settings: "INLN" 999.0, "wght" 999.0;
+  font-variation-settings: "BLDA" 900;
 }
 </code></pre>
 
 <p class="decoDemo1">The quick fox jumped</p>
 
-<h2>Experiments to work with</h2>
+<h2>Experiments to work with: Animation</h2>
 
-<h3>Animating the changes</h3>
+<p>Because these are font attributes we should be able to animate them. We'll use keyframes to animate multiple axes of the font. It works but we have to remember that the fonts are under development so the result may not be exactly what you are expecting... tweak the number until it works the way you want it. </p>
+
+<pre class="language-css"><code class="language-css">.decoDemo2 {
+  font-family: "decovar-vf";
+  font-size: 5rem;
+  animation: deco-animation;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes deco-animation {
+  0%   { font-variation-settings: "BLDA" 0, "TRMF" 0; }
+  100% { font-variation-settings: "BLDA" 999, "TRMF" 600; }
+}</code></pre>
+
+<p class="decoDemo2">The quick fox jumped</p>
+
 <h2>Moving Forward: Issues to be aware of </h2>
   <p>These are some of the things I've learned when working with variable fonts:</p>
 
@@ -559,7 +580,10 @@ our fonts look in the page. </p>
   <p>There is no uniform value for custom axes and fonts are not required to support the same values in a given axis. For example, <strong>Amstelvar</strong> has different minimum  while <strong>Decovar</strong> has multiple axes that all support values between 0 and 1000, so there's no real way to create a scale that works for every font. TTX helps solve the issue but it requires Python and an additional tool to get the information we need before we can work with fonts.</p>
 
   <p>See the CSS WG Github Issue <a href="https://github.com/w3c/csswg-drafts/issues/573">573</a>, <a href="https://github.com/w3c/csswg-drafts/issues/539">539</a> and <a href="https://github.com/w3c/csswg-drafts/issues/518">518</a> to get an idea of what the issues may be.</p>
-
+  
+  <h3>Be mindful in how you use Variable Font Features</h3>
+  
+  <p>Just to abuse the Spiderman quote: "<em><strong>With great power comes great responsibility</strong></em>". Even more so than regular fonts, variable fonts may impact your site's performance if you're not careful. Variable fonts, because they pack many potential combinations of axes, are larger than individual font faces we need to be careful with the number of fonts that we use.</p>
 </article>
 <!-- Scripts -->
 <!-- PRISM-->

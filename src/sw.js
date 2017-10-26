@@ -22,7 +22,7 @@ workboxSW.router.registerRoute(
 
 // Note to self, woff regexp will also match woff2 :P
 workboxSW.router.registerRoute(
-  new RegExp('.(ttf|otf|woff)$'),
+  new RegExp('.(?:ttf|otf|woff)$'),
   workboxSW.strategies.cacheFirst({
     cacheName: 'fonts',
     cacheExpiration: {
