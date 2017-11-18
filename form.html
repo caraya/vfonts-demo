@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Demo Form</title>
+<link href="styles/main.css" rel="stylesheet" type="text/css">
+<!--<link href="styles/robotovf.css" rel="stylesheet" type="text/css">-->
+</head>
+
+<body>
+  
+<form data-test="contact-form">
+  <div class="field">
+    <label>Name</label>
+    <div class="control"><input type="text" id="name" name="name" required="required" class="input">
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Email</label>
+    <div class="control">
+      <input type="email" id="email" name="email" required="required" class="input">
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Phone Number</label>
+      <div class="control">
+        <input type="tel" id="tel" name="tel" required="required" class="input">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Describe your <strong>server's</strong> conditions</label>
+        <div class="control">
+          <textarea id="message" name="message" required="required" class="textarea"></textarea>
+        </div>
+    </div>
+
+    <div class="field">
+      <div class="control">
+        <label class="checkbox">
+          <input type="checkbox" required="required"> I declare that I have read and accepted the <a href="https://www.iubenda.com/privacy-policy/312043/legal" target="_blank" rel="noopener noreferrer" class="has-text-dark">information</a> regarding the processing of data.
+        </label>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="control has-text-centered">
+        <button type="submit" class="button is-warning has-text-weight-bold">BOOK CONSULTANCY</button>
+      </div>
+    </div>
+</form>
+</body>
+</html>
